@@ -1,0 +1,73 @@
+<script lang="ts">
+	import Input from '$lib/components/Input.svelte';
+	import { enhance } from '$app/forms';
+	import { user } from '../../stores';
+	export let form;
+	export let data;
+
+	const baseUrl = import.meta.env.BASE_URL;
+
+	let thisForm: HTMLFormElement;
+
+	$: clearUser = data?.clearUser;
+	$: {
+		if (clearUser) user.set(undefined);
+	}
+
+	let showPassword: boolean = false;
+</script>
+
+<main class="flex justify-center items-center h-full">
+	<div class="card mb-3 shadow flex flex-col items-center justify-center pt-8 w-[420px]">
+		<div class="pb-6">
+			<img src={`${baseUrl}images/icono_nomina.png`} alt="icono software" class="mx-auto h-[160px]" />
+			<form class="mx-3 pt-4" bind:this={thisForm} use:enhance method="post" action="?/login">
+				<Input type="text" identifier="user" label="Usuario*" value={form?.email ?? ''} required={true}/>
+				<Input type="password" identifier="password" label="Contraseña" required={true}/>
+				{#if form?.error}
+					<p class="text-red-500 pt-2">Error: {form.message}</p>
+				{/if}
+				<button class="btn bg-[#3c489f] text-white w-full mt-5 border-none" type="submit">Aceptar</button>
+			</form>
+		</div>
+	</div>
+</main>
+
+<!-- <div class="login-wrapper">
+  
+	<form bind:this={thisForm} use:enhance method="post" action="?/login">
+		<div class="form-item">
+			<label for="email">Email<sup><small class="required">*</small></sup></label>
+			<input value={form?.email ?? ''} id="email" type="email" name="email" required />
+		</div>
+
+		<div class="form-item">
+			<label for="password">Password<sup><small class="required">*</small></sup></label>
+			<div class="visibility-wrapper">
+				{#if showPassword}
+					<button class="btn-visiblity" type="button" on:click={() => (showPassword = false)}>
+						<span class="material-symbols-outlined"> visibility_off </span>
+					</button>
+				{:else}
+					<button class="btn-visiblity" type="button" on:click={() => (showPassword = true)}>
+						<span class="material-symbols-outlined"> visibility </span>
+					</button>
+				{/if}
+				<input class:fieldError={form?.error} type={showPassword ? 'text' : 'password'} id="password" name="password" required />
+			</div>
+		</div>
+
+		<div class="form-item">
+			{#if form?.error}
+				<small class="error-message">{form?.message}</small>
+			{/if}
+		</div>
+
+		<div class="form-item">
+			<button type="submit" class="btn btn-primary">Login</button>
+		</div>
+		<div class="form-item">
+			<a class="reset-link" href="/forgotPassword"><small>Forgot Password?</small></a>
+		</div>
+	</form>
+</div> -->

@@ -1,0 +1,89 @@
+/* TABLAS */
+
+.table {
+	border-radius: 0;
+}
+
+.table thead th:first-child {
+	width: 64px;
+}
+
+.table.table-striped thead th {
+	white-space: nowrap;
+	padding: 1rem;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+table tbody tr {
+	border-color: lavenderblush !important;
+}
+
+table tbody tr:nth-child(odd) {
+	background-color: #f2f2f2 !important;
+}
+
+/* PAGINACION */
+
+.pagination {
+	display: flex;
+	padding-left: 0;
+	border-radius: 4px;
+}
+
+.pagination .paginator-select {
+	padding: 0 28px 0 12px;
+	border-color: #3c489f;
+}
+
+.pagination .paginator-arrows.space-x-2 {
+	display: none;
+}
+
+.pagination li {
+	display: inline;
+}
+
+/* Utilidad NoSeleccionar */
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* CARDS */
+
+.card-header {
+	padding: 0.5rem 1rem;
+	margin-bottom: 0;
+	/* background-color: #3c489f;	 */
+	border-bottom: 1px solid #e3e6f0;
+}
+
+.card-body {
+	background-color: #f8f9fc;
+}
+
+.card-header p {
+	color: #ffffff;
+}
+
+.title-page {
+	color: #3c489f;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+/* NO BORDERS */
+
+button.btn.variant-ghost-surface {
+	border: none;
+}
+
+button.btn.variant-filled {
+	border: none;
+}
