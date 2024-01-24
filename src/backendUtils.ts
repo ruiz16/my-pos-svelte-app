@@ -1,5 +1,5 @@
 import type { Collection } from "mongodb";
-import type { User, UserWithoutId, UserWithoutPassword } from "./types/user";
+import type { IUser, UserWithoutId, UserWithoutPassword } from "./types/user";
 import type { registerFormData } from "./types/form";
 import bcryptjs from 'bcryptjs';
 
@@ -60,7 +60,7 @@ export const findUserByUserWithPassword = async (collection: Collection, user: s
     return JSON.parse(JSON.stringify(User[0], (key, value) => key === "_id" ? value.toString(value) : value))
 }
 
-export const updateUserPassword = async (collection: Collection, user: User) => {
+export const updateUserPassword = async (collection: Collection, user: IUser) => {
     const result = await collection.findOneAndUpdate(
         { email: user.email },
         { $set: { resetTimer: undefined, password: user.password } },

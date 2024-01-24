@@ -1,9 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
+const { Schema } = mongoose;
 
-const User_Schema = new mongoose.Schema({
+export type UserModelType = {
+	_id: string;
+	user: string,
+	name: string,
+	email: string,
+	password: string,
+	resetTimer: number | null | undefined,
+	refreshToken: string | null | undefined,
+};
+
+const UserSchema = new Schema({
+	user: { type: String, required: true },
+	name: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
-	name: { type: String, required: true }
+	resetTimer: { type: String, required: true },
+	refreshToken: { type: String, required: true }
 });
 
-export const User_Model = mongoose.model("User", User_Schema);
+export const UserModel: Model<UserModelType> = mongoose.models.User ?? mongoose.model<UserModelType>('usuarios', UserSchema, 'usuarios');
+UserModel.createIndexes();

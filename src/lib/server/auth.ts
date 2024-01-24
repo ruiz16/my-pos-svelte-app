@@ -1,7 +1,7 @@
 import type { Cookies } from '@sveltejs/kit';
 import jwt from "jsonwebtoken";
 
-import { SECRET_KEY } from "$env/static/private";
+import { SECRET_JWT_KEY } from "$env/static/private";
 
 // import { userX } from '$/stores/User';
 // import { get } from 'svelte/store';
@@ -16,7 +16,7 @@ export const authenticateUser = (cookies: Cookies) => {
 	// to see if it is valid and return the user object
 
 	try {
-		const auth = jwt.verify(userToken, SECRET_KEY);
+		const auth = jwt.verify(userToken, SECRET_JWT_KEY);
 		if (!auth) return undefined;
 		return auth;
 	} catch (error) {
