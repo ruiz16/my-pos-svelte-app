@@ -12,13 +12,11 @@ declare global {
 		}
 		interface Locals {
 			authedUser: UserWithoutPassword | undefined,
-			user: { id: string; email: string; name: string; },
-			auth: { id: string }
 		}
 		// interface PageData {}
 		// interface Platform {}
 	}
-	
+
 	type user = { id: string; email: string; name: string; };
 	type auth = { id: string; };
 }

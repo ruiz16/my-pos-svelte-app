@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { SECRET_JWT_KEY } from "$env/static/private";
@@ -18,19 +17,15 @@ export async function login_user(email: string, password: string): Promise<{ err
 
 async function get_user(email: string, password: string): Promise<{ error: string } | user> {
 
-	if (!email) { return { error: "Email is required." }; }
-	if (!email.match(email_regexp)) { return { error: "Please enter a valid email." }; }
-
-	console.log(email);
+	if (!email) { return { error: "Email es requerido." }; }
+	if (!email.match(email_regexp)) { return { error: "Ingrese un correo válido." }; }
 
 	const user = await UserModel.findOne({ email });
-	console.log(user);
+	if (!user) { return { error: "Usuario no encontrado." }; }
+	if (!password) { return { error: "Contraseña es requerida." }; }
 
-	if (!user) { return { error: "Email could not be found." }; }
-	if (!password) { return { error: "Password is required." }; }
-
-	const password_is_correct = await bcrypt.compare(password, user.password);
-	if (!password_is_correct) { return { error: "Password is not correct." }; }
+	const password_is_correct = password === user.password;
+	if (!password_is_correct) { return { error: "Contraseña no es la correcta." }; }
 
 	const id = user._id.toString();
 	const name = user.name;

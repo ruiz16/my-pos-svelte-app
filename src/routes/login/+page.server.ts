@@ -1,5 +1,5 @@
 import type { Actions, RequestEvent, ActionFailure, Redirect } from '@sveltejs/kit';
-// import { redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { loginFormResponse } from '../../types/form';
 // import { findUserByUserWithPassword } from "../../backendUtils";
 // import { SECRET_JWT_KEY } from '$env/static/private';
@@ -28,9 +28,12 @@ export const actions: Actions = {
 
         try {
             console.log(user);
-            
+
             const user_data = await login_user(user, password);
-            console.log(user_data);
+            if ("error" in user_data) {
+                // eslint-disable-next-line no-undef
+                return fail(400, { error: user_data.error ? true : false, message: user_data.error });
+            }
 
             // // const userAttemptingLogin = await findUserByUserWithPassword(collection, user);
             // // const authAttempt = password === userAttemptingLogin.password;

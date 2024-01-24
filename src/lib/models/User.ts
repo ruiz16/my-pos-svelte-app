@@ -20,5 +20,5 @@ const UserSchema = new Schema({
 	refreshToken: { type: String, required: true }
 });
 
-export const UserModel: Model<UserModelType> = mongoose.models.User ?? mongoose.model<UserModelType>('usuarios', UserSchema, 'usuarios');
+export const UserModel: Model<UserModelType> = mongoose.models.usuarios ?? mongoose.model<UserModelType>('usuarios', UserSchema, 'usuarios');
 UserModel.createIndexes();
