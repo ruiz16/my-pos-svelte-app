@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // See https://kit.svelte.dev/docs/types#app
 
 import type { UserWithoutPassword } from "$/types/user";
@@ -10,11 +11,16 @@ declare global {
 			message: string,
 		}
 		interface Locals {
-			authedUser: UserWithoutPassword | undefined
+			authedUser: UserWithoutPassword | undefined,
+			user: { id: string; email: string; name: string; },
+			auth: { id: string }
 		}
 		// interface PageData {}
 		// interface Platform {}
 	}
+	
+	type user = { id: string; email: string; name: string; };
+	type auth = { id: string; };
 }
 
 export { };
