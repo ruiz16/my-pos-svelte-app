@@ -1,31 +1,38 @@
 import { sequence } from '@sveltejs/kit/hooks';
-import { dbConn } from './dbConn';
-import { findUserByUser } from './backendUtils';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import { SECRET_KEY } from '$env/static/private';
+import { dbConnect } from "$db/connection";
+import { UserModel } from "$lib/models/User";
+import { SECRET_JWT_KEY } from "$env/static/private";
+import { cookie_options } from './lib/utils/utilities';
+
+await dbConnect();
 
 //@ts-ignore
 async function firstHandle({ event, resolve }) {
-	// console.log('first handle');
-	//event.locals = "I went through the first load!"
+
+	// Recuperar el authToken de las cookies y verificarlo
 	const authToken = event.cookies.get('authToken');
 	try {
-		if (!authToken) event.locals.authedUser = undefined;
+		if (!authToken) {
+			event.locals.authedUser = undefined;
+			return;
+		}
 
-		const claims = jwt.verify(authToken, SECRET_KEY) as JwtPayload;
+		const claims = jwt.verify(authToken, SECRET_JWT_KEY) as JwtPayload;
 		if (!claims) event.locals.authedUser = undefined;
 
 		if (authToken && claims) {
-			const db = await dbConn();
-			const collection = db.collection('usuarios');
-			const fullUser = await findUserByUser(collection, claims.authedUser.user);
-			// eslint-disable-next-line no-unused-vars
-			const { password, ...userMinusPassword } = fullUser;
-			event.locals.authedUser = userMinusPassword;
-
+			const fullUser = await UserModel.findById(claims.id, { password: 0 });
+			event.locals.authedUser = fullUser;
 		}
-	}
-	finally {
+
+	} catch (e) {
+		if (e instanceof Error) {
+			throw new Error(e.message);
+		} else {
+			throw new Error('Un error desconocido. <FirstHandleError>');
+		}
+	} finally {
 		const response = await resolve(event);
 		// eslint-disable-next-line no-unsafe-finally
 		return response;
@@ -34,39 +41,44 @@ async function firstHandle({ event, resolve }) {
 
 //@ts-ignore
 async function secondHandle({ event, resolve }) {
-	// console.log('second handle');
+
+	// Si no hay un usuario autenticado, intentar autenticar con el refreshToken
 	if (!event.locals.authedUser) {
 		const refreshToken = event.cookies.get('refreshToken');
 		try {
-			if (!refreshToken) event.locals.authedUser = undefined;
 
-			const claims = jwt.verify(refreshToken, SECRET_KEY) as JwtPayload;
+			if (!refreshToken) {
+				event.locals.authedUser = undefined;
+				return;
+			}
+
+			const claims = jwt.verify(refreshToken, SECRET_JWT_KEY) as JwtPayload;
 			if (!claims) event.locals.authedUser = undefined;
 
 			if (refreshToken && claims) {
-				const db = await dbConn();
-				const collection = db.collection('usuarios');
-				const fullUser = await findUserByUser(collection, claims.authedUser.user);
-				// eslint-disable-next-line no-unused-vars
-				const { password, ...userMinusPassword } = fullUser;
-				event.locals.authedUser = userMinusPassword;
+				const fullUser = await UserModel.findById(claims.id, { password: 0 });
+				event.locals.authedUser = fullUser;
 
 				if (!event.cookies.get('authToken')) {
 					// Generar y configurar el nuevo authToken
-					const authToken = jwt.sign({ authedUser: userMinusPassword }, SECRET_KEY, { expiresIn: 10 });
-					event.cookies.set('authToken', authToken, { httpOnly: true, maxAge: 60 * 60 * 24, sameSite: 'strict' });
+					const authToken = jwt.sign({ authedUser: fullUser }, SECRET_JWT_KEY, { expiresIn: 10 });
+					event.cookies.set('authToken', authToken, cookie_options);
 				}
 			}
 		}
-		finally {
-			// Resolver el evento después de configurar la cookie
+		catch (e) {
+			if (e instanceof Error) {
+				throw new Error(e.message);
+			} else {
+				throw new Error('Un error desconocido. <FirstHandleError>');
+			}
+		} finally {
 			const response = await resolve(event);
 			// eslint-disable-next-line no-unsafe-finally
 			return response;
 		}
 	}
 
-	// Si ya hay authedUser, resolver el evento directamente
 	if (event.locals) {
 		const response = await resolve(event);
 		return response;
@@ -74,3 +86,20 @@ async function secondHandle({ event, resolve }) {
 }
 
 export const handle = sequence(firstHandle, secondHandle);
+
+
+
+// export const handle: Handle = async ({ event, resolve }) => {
+
+// 	const is_protected = event.url.pathname.startsWith("/app")
+// 	const auth = authenticate(event.cookies);
+
+// 	if (is_protected && !auth) {
+// 		event.cookies.delete("email");
+// 		event.cookies.delete("name");
+// 		throw redirect(307, "/login");
+// 	}
+
+// 	const response = await resolve(event);
+// 	return response;
+// };

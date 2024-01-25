@@ -77,7 +77,7 @@
 	<img src={`${baseUrl}images/icono_nomina.png`} alt="icono software" class="mx-auto mt-4 h-32" />
 	<ul class="sidebar-menu">
 		<li class="noselect flex items-center justify-start hover:bg-sky-700">
-			<a href="/" rel="noopener noreferrer" title="Ir a inicio" on:click={drawerClose} class="h-16 w-full text-white">
+			<a href="/app/home" rel="noopener noreferrer" title="Ir a inicio" on:click={drawerClose} class="h-16 w-full text-white">
 				<IconHome class="mx-1" size={24} stroke={0.5} />
 				Inicio
 			</a>
@@ -106,4 +106,4 @@
 	</ul>
 </nav>
 
-<span class="copy-right"> © Comptel System Ltda. <br>Versión: 1.0 </span>
+<span class="copy-right"> © Comptel System Ltda. <br />Versión: 1.0 </span>
