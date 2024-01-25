@@ -17,8 +17,10 @@ const UserSchema = new Schema({
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
 	resetTimer: { type: String, required: true },
-	refreshToken: { type: String, required: true }
-});
+	refreshToken: { type: String, required: false },
+},
+	{ timestamps: true }
+);
 
 export const UserModel: Model<UserModelType> = mongoose.models.usuarios ?? mongoose.model<UserModelType>('usuarios', UserSchema, 'usuarios');
 UserModel.createIndexes();

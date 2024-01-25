@@ -2,6 +2,8 @@
 	import Input from '$lib/components/Input.svelte';
 	import { enhance } from '$app/forms';
 	import { user } from '../../stores';
+	import { redirect } from '@sveltejs/kit';
+	import { goto } from '$app/navigation';
 	export let form;
 	export let data;
 
@@ -12,6 +14,7 @@
 	$: clearUser = data?.clearUser;
 	$: {
 		if (clearUser) user.set(undefined);
+		if (!clearUser) goto('/app/empresas');
 	}
 
 	let showPassword: boolean = false;
@@ -19,11 +22,11 @@
 
 <main class="flex justify-center items-center h-full">
 	<div class="card mb-3 shadow flex flex-col items-center justify-center pt-8 w-[420px]">
-		<div class="pb-6">
+		<div class="pb-6 w-[80%]">
 			<img src={`${baseUrl}images/icono_nomina.png`} alt="icono software" class="mx-auto h-[160px]" />
 			<form class="mx-3 pt-4" bind:this={thisForm} use:enhance method="post" action="?/login">
-				<Input type="text" identifier="user" label="Usuario*" value={form?.email ?? ''} required={true}/>
-				<Input type="password" identifier="password" label="Contraseña" required={true}/>
+				<Input type="text" identifier="user" label="Usuario*" value={form?.email ?? ''} required={true} />
+				<Input type="password" identifier="password" label="Contraseña" required={true} />
 				{#if form?.error}
 					<p class="text-red-500 pt-2">Error: {form.message}</p>
 				{/if}
