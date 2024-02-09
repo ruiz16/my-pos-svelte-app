@@ -1,7 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import { dbConnect } from "$db/connection";
-import { UserModel } from "$lib/models/User";
+import { UserModel } from "$/lib/models/Usuario/Usuario";
 import { SECRET_JWT_KEY } from "$env/static/private";
 import { cookie_options } from './lib/utils/utilities';
 
@@ -60,7 +60,7 @@ async function secondHandle({ event, resolve }) {
 				event.locals.authedUser = fullUser;
 
 				if (!event.cookies.get('authToken')) {
-					// Generar y configurar el nuevo authToken
+					// Generar y configurar el nuevo authToken si no existe (dependiendo del refresh)
 					const authToken = jwt.sign({ authedUser: fullUser }, SECRET_JWT_KEY, { expiresIn: 10 });
 					event.cookies.set('authToken', authToken, cookie_options);
 				}
@@ -70,7 +70,7 @@ async function secondHandle({ event, resolve }) {
 			if (e instanceof Error) {
 				throw new Error(e.message);
 			} else {
-				throw new Error('Un error desconocido. <FirstHandleError>');
+				throw new Error('Un error desconocido. <SecondHandleError>');
 			}
 		} finally {
 			const response = await resolve(event);

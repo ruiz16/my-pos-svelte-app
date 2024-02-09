@@ -13,20 +13,20 @@ const mongoConnection = {
 
 export const dbConnect = async () => {
   if (mongoConnection.isConnected === 1) {
-    // console.log('Ya estabamos conectados a mongodb');
+    console.log('Ya estabamos conectados a mongodb');
     return;
   }
 
   if (mongoose.connections.length > 0) {
     mongoConnection.isConnected = mongoose.connections[0].readyState;
     if (mongoConnection.isConnected === 1) {
-      // console.log('Se reusa la conexion existente a mongodb');
+      console.log('Se re-usa la conexion existente a mongodb');
       return;
     }
 
     await mongoose.disconnect();
   }
-  await mongoose.connect(SECRET_MONGO_URI ?? '', { dbName: 'pos_digital', });
+  await mongoose.connect(SECRET_MONGO_URI);
   mongoConnection.isConnected = 1;
 };
 
@@ -36,5 +36,5 @@ export const dbDisconnect = async () => {
 
   await mongoose.disconnect();
   mongoConnection.isConnected = 0;
-  // console.log('Desconectado de mongodb');
+  console.log('Desconectado de mongodb');
 };

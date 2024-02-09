@@ -2,8 +2,6 @@
 	import Input from '$lib/components/Input.svelte';
 	import { enhance } from '$app/forms';
 	import { user } from '../../stores';
-	import { redirect } from '@sveltejs/kit';
-	import { goto } from '$app/navigation';
 	export let form;
 	export let data;
 
@@ -14,7 +12,6 @@
 	$: clearUser = data?.clearUser;
 	$: {
 		if (clearUser) user.set(undefined);
-		if (!clearUser) goto('/app/empresas');
 	}
 
 	let showPassword: boolean = false;
@@ -35,42 +32,3 @@
 		</div>
 	</div>
 </main>
-
-<!-- <div class="login-wrapper">
-  
-	<form bind:this={thisForm} use:enhance method="post" action="?/login">
-		<div class="form-item">
-			<label for="email">Email<sup><small class="required">*</small></sup></label>
-			<input value={form?.email ?? ''} id="email" type="email" name="email" required />
-		</div>
-
-		<div class="form-item">
-			<label for="password">Password<sup><small class="required">*</small></sup></label>
-			<div class="visibility-wrapper">
-				{#if showPassword}
-					<button class="btn-visiblity" type="button" on:click={() => (showPassword = false)}>
-						<span class="material-symbols-outlined"> visibility_off </span>
-					</button>
-				{:else}
-					<button class="btn-visiblity" type="button" on:click={() => (showPassword = true)}>
-						<span class="material-symbols-outlined"> visibility </span>
-					</button>
-				{/if}
-				<input class:fieldError={form?.error} type={showPassword ? 'text' : 'password'} id="password" name="password" required />
-			</div>
-		</div>
-
-		<div class="form-item">
-			{#if form?.error}
-				<small class="error-message">{form?.message}</small>
-			{/if}
-		</div>
-
-		<div class="form-item">
-			<button type="submit" class="btn btn-primary">Login</button>
-		</div>
-		<div class="form-item">
-			<a class="reset-link" href="/forgotPassword"><small>Forgot Password?</small></a>
-		</div>
-	</form>
-</div> -->

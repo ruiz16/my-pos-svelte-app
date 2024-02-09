@@ -9,13 +9,6 @@
 	const drawerStore = getDrawerStore();
 	import Navigation from '$/routes/menu.svelte';
 
-	import { userX } from '$/stores/User';
-	import { get } from 'svelte/store';
-	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-
-	const usuario_logueado: any = get(userX);
-
 	function drawerOpen() {
 		const drawerSettings: DrawerSettings = {
 			id: 'menu',

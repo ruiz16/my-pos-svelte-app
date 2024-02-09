@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { IconEye, IconPencil, IconTrash } from '@tabler/icons-svelte';
+	import { IconPencil, IconTrash } from '@tabler/icons-svelte';
 	import ButtonNew from '$lib/components/ButtonNew.svelte';
 	import { Paginator, Modal, type PaginationSettings } from '@skeletonlabs/skeleton';
 
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();
 
-	import { ApiService } from '$/services';
 	import { onMount } from 'svelte';
 	import { calculatePaginatedSource } from '$lib/utils/utilities.js';
-	const END_POINT = 'empresa';
 
 	import { nameWindow, type Empresa } from './shared';
 	import { openDeleteModal } from '$/lib/utils/modals';
@@ -29,21 +27,23 @@
 		amounts: [10, 20, 100]
 	} satisfies PaginationSettings;
 
-	function deleteHandler(data: Empresa) {
-		openDeleteModal(data, modalStore).then((result) => {
+	async function deleteHandler(data: any) {
+		openDeleteModal(data, modalStore).then(async (result) => {
 			if (result === true) {
-				// ELIMINAR DESDE APISERVICE
-				ApiService(`${END_POINT}/${data._id}`, 'DELETE', token).then((result) => {
-					getData(token);
+				const formData = new FormData();
+				formData.append('data', JSON.stringify(data));
+
+				const response = await fetch('?/delete', {
+					method: 'POST',
+					body: formData,
+					headers: { 'x-sveltekit-action': 'true' }
 				});
 			}
 		});
 	}
 
-	function getData(token: string) {
-		ApiService(`${END_POINT}s`, 'GET', token).then((datos) => {
-			sourceData = datos;
-		});
+	async function getData(token: string) {
+		sourceData = JSON.parse(data.empresas);
 	}
 
 	let token = '';
@@ -94,24 +94,20 @@
 								>
 									Editar <IconPencil size={12} />
 								</a>
-								<button
-									class="flex gap-1 btn btn-sm px-2 py-1 border-none bg-slate-400 hover:bg-red-600 text-white rounded-md cursor-pointer"
-									title="Eliminar"
-									on:click={() => deleteHandler({ ...data })}
-								>
-									Eliminar <IconTrash size={12} />
-								</button>
+								<form method="POST" on:submit|preventDefault={() => deleteHandler(data)}>
+									<input name="id" type="text" hidden value={data._id} />
+									<button
+										class="flex gap-1 btn btn-sm px-2 py-1 border-none bg-slate-400 hover:bg-red-600 text-white rounded-md cursor-pointer"
+										title="Eliminar"
+										type="submit"
+									>
+										Eliminar <IconTrash size={12} />
+									</button>
+								</form>
 							</td>
 						</tr>
 					{/each}
 				</tbody>
-				<!-- OPCIONAL CALCULOS -->
-				<!-- <tfoot>
-					<tr>
-						<th colspan="3">Calculated Total Weight</th>
-						<td>100</td>
-					</tr>
-				</tfoot> -->
 			</table>
 			<Paginator
 				class="pagination mt-4 text-xs"

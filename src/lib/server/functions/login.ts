@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import { SECRET_JWT_KEY } from "$env/static/private";
 import { email_regexp } from "$/lib/utils/utilities";
-import { UserModel } from "$lib/models/User";
+import { UserModel } from "$/lib/models/Usuario/Usuario";
 
 export async function login_user(email: string, password: string): Promise<{ error: string } | { token: string; user: user }> {
 

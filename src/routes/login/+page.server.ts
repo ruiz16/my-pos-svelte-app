@@ -1,11 +1,12 @@
+import { login_user } from '$/lib/server/functions/login';
+import { SECRET_JWT_KEY } from '$env/static/private';
+import { cookie_options } from "$lib/utils/utilities";
+
 import type { Actions, RequestEvent, ActionFailure, Redirect } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
 
-import type { loginFormResponse } from '$/types/form';
-import { SECRET_JWT_KEY } from '$env/static/private';
-import { login_user } from '$/lib/server/functions/login';
-import { cookie_options } from "$lib/utils/utilities";
+import type { loginFormResponse } from './login';
 
 export async function load({ cookies }) {
     const authToken = cookies.get('authToken');

@@ -3,9 +3,15 @@
 
 	import Form from '../Form.svelte';
 	import { IconChevronLeft } from '@tabler/icons-svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
-	import type { PageData } from './$types';
-	export let data: PageData;
+	export let form: any = {};
+
+	$: if (form?.success === true) {
+		const url = `/empresas/${form.id}`;
+		if (browser) goto(url);
+	}
 </script>
 
 <section class="mx-[30px] mt-4 flex flex-col justify-center">
@@ -25,7 +31,7 @@
 	</div>
 	<div class="card mb-3 shadow" style="margin-top: 16px;">
 		<div class="pb-6">
-			<Form action="create" input={undefined} token={data.token} />
+			<Form input={undefined} action="./nuevo?/save" />
 		</div>
 	</div>
 </section>

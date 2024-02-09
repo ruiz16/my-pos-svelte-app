@@ -1,28 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { IconChevronLeft } from '@tabler/icons-svelte';
 	import Form from '../Form.svelte';
-	import { ApiService } from '$/services';
 
 	import type { PageData } from './$types';
 	export let data: PageData;
 
 	import { nameWindow } from '../shared';
 
-	const END_POINT = 'empresa';
-
-	let urlParams = {};
 	// TODO: crear interface de empresa
 	let datos: any = {};
 
 	onMount(() => {
-		// const searchParams = new URLSearchParams(window.location.search);
-		// urlParams = Object.fromEntries(searchParams.entries());
 		const token = data.token;
-		ApiService(`${END_POINT}/${$page.params.id}`, 'GET', token).then((response) => {
-			datos = response;
-		});
+		datos = JSON.parse(data.empresa);
 	});
 </script>
 
@@ -43,7 +34,7 @@
 	</div>
 	<div class="card mb-3 shadow" style="margin-top: 16px;">
 		<div class="pb-6">
-			<Form input={datos} action="update" token={data.token} />
+			<Form input={datos} action={`./${datos._id}?/update`} />
 		</div>
 	</div>
 </section>
