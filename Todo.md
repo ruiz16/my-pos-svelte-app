@@ -34,9 +34,10 @@
     - [] sucursales
   - [ ] Fetch data from API (¿Is need it? -> If data need by accesible for outside/yes.)
   - [ ] Display data in components
-    - [🆗] Component Input
+    - [🆗] Component Input/Email/PWD
     - [🆗] Component Button
     - [🆗] Component Date
+    - [🆗] Component Select (Only with Tables models)
   - [ ] Implement user interactions
     - [🆗] Create ModalStore
     - [] Create ToastStore
