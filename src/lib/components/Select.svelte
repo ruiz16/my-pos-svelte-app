@@ -13,13 +13,6 @@
 		const selectedIndex = event.target.selectedIndex;
 		selectedValue = options[selectedIndex];
 	}
-
-	$: {
-		// Asegurarse de que el valor esté en las opciones cuando no estamos en modo de edición
-		if (!isEditing && !options.includes(value)) {
-			options = [...options, value];
-		}
-	}
 </script>
 
 <span class={className + 'label'}>

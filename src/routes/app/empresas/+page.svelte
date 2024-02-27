@@ -28,17 +28,19 @@
 		amounts: [10, 20, 100]
 	} satisfies PaginationSettings;
 
-	async function deleteHandler(data) {
-		openDeleteModal(data, modalStore).then(async (result) => {
+	async function deleteHandler(id: string, empresa: Empresa) {
+		openDeleteModal(empresa, modalStore).then(async (result) => {
 			if (result === true) {
-				const formData = new FormData();
-				formData.append('data', JSON.stringify(data));
-
 				const response = await fetch('?/delete', {
 					method: 'POST',
-					body: formData,
-					headers: { 'x-sveltekit-action': 'true' }
+					body: new URLSearchParams({ id }),
+					headers: { 'x-sveltekit-action': 'true', 'Content-Type': 'application/x-www-form-urlencoded' }
 				});
+				if (response.status === 200) {
+					paginatedSource = paginatedSource.filter(function (item) {
+						return item._id !== id;
+					});
+				}
 			}
 		});
 	}
@@ -96,7 +98,7 @@
 								>
 									Editar <IconPencil size={12} />
 								</a>
-								<form method="POST" on:submit|preventDefault={() => deleteHandler(data)}>
+								<form method="POST" on:submit|preventDefault={() => deleteHandler(data._id, data)}>
 									<!-- HIDDEN VALUE ID -->
 									<input name="id" type="text" hidden value={data._id} />
 									<button

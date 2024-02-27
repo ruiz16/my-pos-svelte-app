@@ -2,22 +2,24 @@ import { EmpresaModel } from "$/lib/models/Empresa/Empresa";
 import type { Actions } from "@sveltejs/kit";
 
 
+
 export async function load() {
     const empresas = await EmpresaModel.find({}).lean();
     return { empresas: JSON.parse(JSON.stringify(empresas)) };
 }
 
 export const actions: Actions = {
-    delete: async ({ request }) => {
+    delete: async ({ request }: { request: Request }) => {
         try {
 
-            const body = await request.formData();
-            const { _id } = JSON.parse(body.get('id') as string);
-            const result = await EmpresaModel.deleteOne({ _id });
+            const formData = await request.formData();
+            const _id = formData.get('id');
+            await EmpresaModel.deleteOne({ _id });
 
             // Devuelve la respuesta adecuada
             return {
-                body: JSON.stringify(result),
+                status: 200,
+                id: _id,
                 headers: {
                     'Content-Type': 'application/json',
                 },
