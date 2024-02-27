@@ -22,12 +22,12 @@ export class Usuarios {
         this._model = model || {};
     }
 
-    toJSON(): any {
+    toJSON() {
         return {
             ...this._model
         };
     }
 }
 
-export interface _user extends UserModelInterface {}; 
+export interface _user extends UserModelInterface { };
 export const UserModel: Model<UserModelInterface> = mongoose.models?.usuarios ?? mongoose.model<UserModelInterface>('usuarios', UserSchema, 'usuarios');

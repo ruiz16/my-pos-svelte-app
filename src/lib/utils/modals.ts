@@ -1,5 +1,6 @@
 import type { ModalSettings, ModalStore } from '@skeletonlabs/skeleton';
 
+// TODO: Solve data type
 export function openDeleteModal(data: any, modalStore: ModalStore): Promise<boolean> {
 	return new Promise((resolve) => {
 		const modal: ModalSettings = {

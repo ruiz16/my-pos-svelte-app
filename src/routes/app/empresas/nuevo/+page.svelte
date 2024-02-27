@@ -8,8 +8,11 @@
 
 	export let form: any = {};
 
+	import type { PageData } from './$types';
+	export let data: PageData;
+
 	$: if (form?.success === true) {
-		const url = `/empresas/${form.id}`;
+		const url = `/app/empresas/${JSON.parse(form.id)}?success=true`;
 		if (browser) goto(url);
 	}
 </script>
@@ -31,7 +34,7 @@
 	</div>
 	<div class="card mb-3 shadow" style="margin-top: 16px;">
 		<div class="pb-6">
-			<Form input={undefined} action="./nuevo?/save" />
+			<Form action="./nuevo?/save" tablas={data.tablas} empresa={null} isEditing={false} />
 		</div>
 	</div>
 </section>

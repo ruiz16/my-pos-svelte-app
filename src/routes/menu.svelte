@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
 	import { IconHome, IconUserCircle, IconBuildingStore, IconCaretDown } from '@tabler/icons-svelte';
 	import { onMount } from 'svelte';
@@ -19,8 +20,8 @@
 
 	function menuToggle() {
 		function link(element: HTMLElement) {
-			let ul: any;
-			let arrow: any;
+			let ul;
+			let arrow;
 			let seleccionado: Seleccionado = {};
 
 			function observeCallback() {

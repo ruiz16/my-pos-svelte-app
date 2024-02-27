@@ -17,6 +17,7 @@
 
 	let sourceData: Empresa[] = [];
 	let paginatedSource: Empresa[];
+	let tablas: [];
 
 	// CONFIGURACION TABLA
 	const sourceHeader = ['#', 'Estado', 'Nombre', 'Nombre Comercial', 'Tipo Documento', 'No. Identificación', 'Opciones'];
@@ -27,7 +28,7 @@
 		amounts: [10, 20, 100]
 	} satisfies PaginationSettings;
 
-	async function deleteHandler(data: any) {
+	async function deleteHandler(data) {
 		openDeleteModal(data, modalStore).then(async (result) => {
 			if (result === true) {
 				const formData = new FormData();
@@ -43,7 +44,8 @@
 	}
 
 	async function getData(token: string) {
-		sourceData = JSON.parse(data.empresas);
+		sourceData = data.empresas;
+		tablas = data.tablas;
 	}
 
 	let token = '';
@@ -80,10 +82,10 @@
 					{#each paginatedSource as data, i (data._id)}
 						<tr>
 							<td class="pl-1">{i + 1}</td>
-							<td>{data.estado}</td>
+							<td>{data.estado.valor}</td>
 							<td>{data.nombre}</td>
 							<td>{data.nombre_comercial}</td>
-							<td>{data.tipo_doc}</td>
+							<td>{data.tipo_doc?.valor ?? ''}</td>
 							<td>{data.doc}</td>
 							<td class="mt-1 flex items-center gap-2 py-2">
 								<a
@@ -95,6 +97,7 @@
 									Editar <IconPencil size={12} />
 								</a>
 								<form method="POST" on:submit|preventDefault={() => deleteHandler(data)}>
+									<!-- HIDDEN VALUE ID -->
 									<input name="id" type="text" hidden value={data._id} />
 									<button
 										class="flex gap-1 btn btn-sm px-2 py-1 border-none bg-slate-400 hover:bg-red-600 text-white rounded-md cursor-pointer"

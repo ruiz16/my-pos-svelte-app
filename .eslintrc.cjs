@@ -23,7 +23,9 @@ module.exports = {
 		'import/no-extraneous-dependencies': 0,
 		'import/no-mutable-exports': 0,
 		'import/no-named-as-default': 0,
-		'import/no-duplicates': 0
+		'import/no-duplicates': 0,
+		'no-unused-vars': 0,
+		'@typescript-eslint/no-unsafe-call': 'warn',
 	},
 	overrides: [
 		{

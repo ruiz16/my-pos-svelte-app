@@ -1,68 +1,98 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
-	import Dropdown from '$lib/components/Dropdown.svelte';
+	import { enhance } from '$app/forms';
+	import Select from '$/lib/components/Select.svelte';
 
-	export let input: any = {};
-	export let action: string = '';
+	// TODO: Add types-definitions.
+	export let action: string;
+	export let isEditing: boolean;
+	export let tablas;
+	export let empresa;
 
-	/** 
-	{
-		"tipo": "regimen",
-		"clave": "1",
-		"valor": "No responsable de IVA"
+	let input: any = {};
+	if (input && empresa) {
+		input = empresa;
 	}
-	*/
 
-	const estados = ['Activo', 'Inactivo'];
-	const tiposDocumento = ['Cedula de Ciudadania', 'Tarjeta de Identidad', 'Pasaporte', 'Cedula de Extranjeria', 'NIT'];
-	const regimenesFiscales = [
-		'No Responsable de IVA',
-		'Si Responsable de IVA',
-		'Impuesto al Consumo',
-		'Si Responsable de IVA e Impuesto al Consumo'
-	];
-	const actividadesEconomicas = ['Empleado', 'Pensionado', 'Profesional Independiente', 'Comverciante', 'Otro'];
-	const responsabilidadesFiscales = ['Gran Contribuyente', 'Contribuyente', 'No Contribuyente'];
-	const impuestos = ['Impuesto de valor agregado', 'Otro impuesto'];
-	const ambientes = ['Desarrollo', 'Pruebas', 'Producción'];
+	// @ts-ignore
+	const groupedData = tablas.reduce((result, item) => {
+		const tipo = item.tipo;
+		if (!result[tipo]) {
+			result[tipo] = [];
+		}
+		result[tipo].push(item);
+		return result;
+	}, {});
 </script>
 
-<form class="mt-4 flex flex-col gap-4 pt-4" {action} method="post">
+<form class="mt-4 flex flex-col gap-4 pt-4" {action} method="post" use:enhance on:submit|preventDefault>
 	<div class="grid grid-cols-4 gap-8 p-4 pt-0">
-		<Dropdown className="col-span-2" identifier="estado" label="Estado" choices={estados} bind:value={input.estado} />
-		<Dropdown
-			className="col-span-2"
-			identifier="tipo_doc"
-			label="Tipo de Documento"
-			choices={tiposDocumento}
-			bind:value={input.tipo_doc}
+		<Select
+			className=""
+			identifier="estado"
+			label="Estado"
+			options={groupedData.estado}
+			bind:value={input.estado}
+			display_func={(a) => a.valor}
+			{isEditing}
 		/>
-		<Input className="col-span-2" identifier="doc" label="No. Identificación" bind:value={input.doc} />
-		<Input className="col-span-2" identifier="nombre" label="Nombre" bind:value={input.nombre} />
-		<Input className="col-span-2" identifier="nombre_comercial" label="Nombre Comercial" bind:value={input.nombre_comercial} />
-		<Dropdown
-			className="col-span-2"
+		<Select
+			className=""
+			identifier="tipo_doc"
+			label="Tipo Documento"
+			options={groupedData.tipo_doc}
+			bind:value={input.tipo_doc}
+			display_func={(a) => a.valor}
+			{isEditing}
+		/>
+		<Input className="" identifier="doc" label="No. Identificación" bind:value={input.doc} />
+		<Input className="" identifier="nombre" label="Nombre" bind:value={input.nombre} />
+		<Input className="" identifier="nombre_comercial" label="Nombre Comercial" bind:value={input.nombre_comercial} />
+		<Select
+			className=""
 			identifier="actividad_eco"
 			label="Actividad Económica"
-			choices={actividadesEconomicas}
+			options={groupedData.actividad_eco}
 			bind:value={input.actividad_eco}
+			display_func={(a) => a.valor}
+			{isEditing}
 		/>
-		<Dropdown
-			className="col-span-2"
+		<Select
+			className=""
 			identifier="resp_fiscal"
 			label="Responsabilidad Fiscal"
-			choices={responsabilidadesFiscales}
+			options={groupedData.resp_fiscal}
 			bind:value={input.resp_fiscal}
+			display_func={(a) => a.valor}
+			{isEditing}
 		/>
-		<Dropdown className="col-span-2" identifier="impuestos" label="Impuestos" choices={impuestos} bind:value={input.impuestos} />
-		<Dropdown
-			className="col-span-2"
+		<Select
+			className=""
+			identifier="impuestos"
+			label="Impuestos"
+			options={groupedData.impuestos}
+			bind:value={input.impuestos}
+			display_func={(a) => a.valor}
+			{isEditing}
+		/>
+		<Select
+			className=""
 			identifier="regimen"
 			label="Regimen Fiscal"
-			choices={regimenesFiscales}
+			options={groupedData.regimen}
 			bind:value={input.regimen}
+			display_func={(a) => a.valor}
+			{isEditing}
 		/>
-		<Dropdown className="col-span-2" identifier="ambiente" label="Ambiente" choices={ambientes} bind:value={input.ambiente} />
+		<Select
+			className=""
+			identifier="ambiente"
+			label="Ambiente"
+			options={groupedData.ambiente}
+			bind:value={input.ambiente}
+			display_func={(a) => a.valor}
+			{isEditing}
+		/>
 	</div>
 	<button
 		type="submit"

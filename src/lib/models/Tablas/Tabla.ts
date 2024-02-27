@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-/// <reference path="./index.d.ts"/>
+import type { TablaModelInterface } from "./index";
 
 import mongoose, { Model } from "mongoose";
 const { Schema } = mongoose;
@@ -21,7 +21,7 @@ export class Tablas {
         this._model = model || {};
     }
 
-    toJSON(): any {
+    toJSON() {
         return {
             ...this._model
         };

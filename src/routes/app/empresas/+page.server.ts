@@ -3,16 +3,16 @@ import type { Actions } from "@sveltejs/kit";
 
 
 export async function load() {
-    const _empresas = await EmpresaModel.find({}).lean();
-    return { empresas: JSON.stringify(_empresas) }
+    const empresas = await EmpresaModel.find({}).lean();
+    return { empresas: JSON.parse(JSON.stringify(empresas)) };
 }
 
-export const actions: Actions | any = {
-    delete: async ({ request }: any): Promise<any> => {
+export const actions: Actions = {
+    delete: async ({ request }) => {
         try {
 
             const body = await request.formData();
-            const { _id } = JSON.parse(body.get('data'));
+            const { _id } = JSON.parse(body.get('id') as string);
             const result = await EmpresaModel.deleteOne({ _id });
 
             // Devuelve la respuesta adecuada

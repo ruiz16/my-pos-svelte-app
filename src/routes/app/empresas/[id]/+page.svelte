@@ -1,19 +1,24 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import { IconChevronLeft } from '@tabler/icons-svelte';
 	import Form from '../Form.svelte';
 
 	import type { PageData } from './$types';
-	export let data: PageData;
+	export let data: PageData | any;
+
+	export let form: any = {};
 
 	import { nameWindow } from '../shared';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
-	// TODO: crear interface de empresa
-	let datos: any = {};
-
-	onMount(() => {
-		const token = data.token;
-		datos = JSON.parse(data.empresa);
+	afterUpdate(() => {
+		if (form?.success === true) {
+			const url = `/app/empresas/${JSON.parse(form.id)}?type=edit&success=true`;
+			if (browser) {
+				goto(url, { invalidateAll: true });
+			}
+		}
 	});
 </script>
 
@@ -28,13 +33,15 @@
 			<IconChevronLeft class="mx-1" size={24} stroke={3} color="white" />
 		</a>
 		<span>
-			<h2 class="title-page">Empresa : {datos.nombre} [NIT: {datos.doc}]</h2>
+			<h2 class="title-page">Empresa : {data.empresa.nombre} [NIT: {data.empresa.doc}]</h2>
 			<p class="unstyled text-sm text-blue-900">A continuación los datos de la {nameWindow.singular.toLowerCase()}.</p>
 		</span>
 	</div>
 	<div class="card mb-3 shadow" style="margin-top: 16px;">
 		<div class="pb-6">
-			<Form input={datos} action={`./${datos._id}?/update`} />
+			{#key data.empresa}
+				<Form action={`./${data.empresa._id}?/update`} tablas={data.tablas} empresa={data.empresa} isEditing={true} />
+			{/key}
 		</div>
 	</div>
 </section>

@@ -1,21 +1,32 @@
 import { EmpresaModel } from "$/lib/models/Empresa/Empresa";
+// import { TablaModel } from "$/lib/models/Tablas/Tabla";
 import type { Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {
     save: async ({ request }) => {
-        const formData = await request.formData();
-        const estado = formData.get("estado") || 'Activo';
-        const tipo_doc = formData.get("tipo_doc") || 'NIT';
-        const doc = formData.get("doc");
-        const nombre = formData.get("nombre");
-        const nombre_comercial = formData.get("nombre_comercial");
-        const regimen = formData.get("regimen");
-        const actividad_eco = formData.get("actividad_eco");
-        const resp_fiscal = formData.get("resp_fiscal");
-        const impuestos = formData.get("impuestos");
-        const ambiente = formData.get("ambiente");
+        try {
+            const formData = await request.formData();
+            // Convertir FormData a un objeto plano
+            const value: Record<string, string | object> = {};
 
-        const newEmpresa = await EmpresaModel.create({ estado, tipo_doc, doc, nombre, nombre_comercial, regimen, actividad_eco, resp_fiscal, impuestos, ambiente })
-        return { success: true, id: newEmpresa._id };
+            formData.forEach((formDataEntryValue, key) => {
+                if (typeof formDataEntryValue === 'string') {
+                    try {
+                        // Intentar realizar JSON.parse en cada cadena JSON
+                        value[key] = JSON.parse(formDataEntryValue);
+                    } catch (error) {
+                        // Si no se puede analizar como JSON, simplemente asignar el valor de cadena
+                        value[key] = formDataEntryValue;
+                    }
+                } else {
+                    // Si no es una cadena, simplemente asignar el valor
+                    value[key] = formDataEntryValue;
+                }
+            });
+            const newEmpresa = await EmpresaModel.create(value);
+            return { success: true, id: JSON.stringify(newEmpresa._id) };
+        } catch (error: any) {
+            return { success: false, message: error.message };
+        }
     }
 }

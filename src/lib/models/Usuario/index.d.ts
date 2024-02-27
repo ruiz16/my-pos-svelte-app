@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 interface UserModelInterface {
     user: string,
     name: string,
