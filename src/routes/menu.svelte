@@ -97,10 +97,10 @@
 			</span>
 			<ul class="sidebar-menu-second-level collexpanded">
 				<li class="noselect h-6 flex" style="min-height: 48px;">
-					<a href="/app/empresas" rel="noopener noreferrer" title="Ir a empresas"> Empresas </a>
+					<a class="w-full" href="/app/empresas" rel="noopener noreferrer" title="Ir a empresas"> Empresas </a>
 				</li>
 				<li class="noselect h-6 flex" style="min-height: 48px;">
-					<a href="/app/sucursales" rel="noopener noreferrer" title="Ir a sucursales"> Sucursales </a>
+					<a class="w-full" href="/app/sucursales" rel="noopener noreferrer" title="Ir a sucursales"> Sucursales (Not Implemented) </a>
 				</li>
 			</ul>
 		</li>
