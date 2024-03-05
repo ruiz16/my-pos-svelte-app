@@ -10,8 +10,8 @@
 	let thisForm: HTMLFormElement;
 
 	$: clearUser = data?.clearUser;
-	$: {
-		if (clearUser) user.set(undefined);
+	$: if (clearUser) {
+		user.set(undefined);
 	}
 
 	let showPassword: boolean = false;

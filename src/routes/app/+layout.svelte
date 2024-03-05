@@ -12,7 +12,6 @@
 	function drawerOpen() {
 		const drawerSettings: DrawerSettings = {
 			id: 'menu',
-			// Provide your property overrides:
 			bgDrawer: 'bg-[#3C489F] text-white',
 			bgBackdrop: 'bg-gradient-to-tr from-indigo-500/50 via-purple-500/50 to-pink-500/50',
 			width: 'w-72',

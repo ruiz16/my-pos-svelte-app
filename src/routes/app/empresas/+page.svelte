@@ -25,7 +25,7 @@
 		page: 0,
 		limit: 10,
 		size: sourceData.length,
-		amounts: [10, 20, 100]
+		amounts: [10, 20, 100],
 	} satisfies PaginationSettings;
 
 	async function deleteHandler(id: string, empresa: Empresa) {
@@ -34,7 +34,7 @@
 				const response = await fetch('?/delete', {
 					method: 'POST',
 					body: new URLSearchParams({ id }),
-					headers: { 'x-sveltekit-action': 'true', 'Content-Type': 'application/x-www-form-urlencoded' }
+					headers: { 'x-sveltekit-action': 'true', 'Content-Type': 'application/x-www-form-urlencoded' },
 				});
 				if (response.status === 200) {
 					paginatedSource = paginatedSource.filter(function (item) {
