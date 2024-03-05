@@ -12,12 +12,21 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
+	const toastStore = getToastStore();
+
 	afterUpdate(() => {
 		if (form?.success === true) {
 			const url = `/app/empresas/${JSON.parse(form.id)}?type=edit&success=true`;
 			if (browser) {
+				const toast: ToastSettings = { message: 'Empresa actualizada exitosamente', timeout: 5000, background: 'bg-green-600' };
+				toastStore.trigger(toast);
 				goto(url, { invalidateAll: true });
 			}
+		} else if (form?.error) {
+			const toast: ToastSettings = { message: form.error, timeout: 5000, background: 'bg-red-600' };
+			toastStore.trigger(toast);
 		}
 	});
 </script>

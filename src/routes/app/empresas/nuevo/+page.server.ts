@@ -26,7 +26,11 @@ export const actions: Actions = {
             const newEmpresa = await EmpresaModel.create(value);
             return { success: true, id: JSON.stringify(newEmpresa._id) };
         } catch (error: any) {
-            return { success: false, message: error.message };
+            if (error.code === 11000) {
+                return { success: false, error: "Ya existe una empresa con el mismo documento" };
+            } else {
+                return { success: false, error: error.message };
+            }
         }
     }
 }

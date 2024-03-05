@@ -1,14 +1,10 @@
+import type { EmpresaModelInterface } from '$lib/models/Empresa';
+
 export const nameWindow = {
 	plural: 'Empresas',
 	singular: 'Empresa'
 };
 
-export interface Empresa {
+export interface Empresa extends EmpresaModelInterface {
 	_id: string;
-	estado: { [valor: string]: string };
-	nombre: string;
-	nombre_comercial: string;
-	tipo_doc: { [valor: string]: string };
-	doc: string;
-	observaciones: string;
 }

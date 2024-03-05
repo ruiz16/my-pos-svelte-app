@@ -11,9 +11,24 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
+	const toastStore = getToastStore();
+
 	$: if (form?.success === true) {
 		const url = `/app/empresas/${JSON.parse(form.id)}?success=true`;
-		if (browser) goto(url);
+		if (browser) {
+			const toast: ToastSettings = { message: 'Empresa creada exitosamente', timeout: 5000, background: 'bg-green-600' };
+			toastStore.trigger(toast);
+			goto(url);
+		}
+	} else if (form?.error) {
+		const url = `/app/empresas/nuevo?success=false`;
+		if (browser) {
+			const toast: ToastSettings = { message: form.error, timeout: 5000, background: 'bg-red-600' };
+			toastStore.trigger(toast);
+			goto(url);
+		}
 	}
 </script>
 

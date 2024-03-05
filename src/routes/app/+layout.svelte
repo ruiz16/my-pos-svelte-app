@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { AppBar, AppShell, Avatar, Drawer, initializeStores, type DrawerSettings } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Avatar, Drawer, type DrawerSettings, Toast } from '@skeletonlabs/skeleton';
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
-	
+
 	import type { PageData } from '../$types';
 	export let data: PageData;
-	
+
 	const baseUrl = import.meta.env.BASE_URL;
 	const drawerStore = getDrawerStore();
 	import Navigation from '$/routes/menu.svelte';
@@ -17,7 +17,7 @@
 			bgBackdrop: 'bg-gradient-to-tr from-indigo-500/50 via-purple-500/50 to-pink-500/50',
 			width: 'w-72',
 			padding: 'p-0',
-			rounded: 'rounded-xl'
+			rounded: 'rounded-xl',
 		};
 		drawerStore.open(drawerSettings);
 	}
@@ -51,7 +51,7 @@
 			<svelte:fragment slot="trail">
 				<span class="mr-1 lg:block" style="text-transform: capitalize;">{data.name}</span>
 				<Avatar initials="SR" width="w-8" rounded="rounded-full" background="bg-white" />
-				<button class="btn bg-red-600 btn-primary rounded-md btn-sm">
+				<button class="btn btn-primary rounded-md btn-sm bg-red-600">
 					<a data-sveltekit-preload-data="off" href="/logout">Cerrar Sesión</a>
 				</button>
 			</svelte:fragment>
@@ -67,4 +67,5 @@
 	<div class="pt-2">
 		<slot />
 	</div>
+	<Toast class="text-white" position="br" />
 </AppShell>

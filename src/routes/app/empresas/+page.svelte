@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { IconPencil, IconTrash } from '@tabler/icons-svelte';
 	import ButtonNew from '$lib/components/ButtonNew.svelte';
-	import { Paginator, Modal, type PaginationSettings } from '@skeletonlabs/skeleton';
+	import { Paginator, Modal, type PaginationSettings, Toast } from '@skeletonlabs/skeleton';
 
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();

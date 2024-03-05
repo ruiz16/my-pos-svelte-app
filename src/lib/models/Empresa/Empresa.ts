@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import type { EmpresaModelInterface } from "./index";
 
+
 import mongoose, { Model } from "mongoose";
 const { Schema } = mongoose;
 
@@ -9,7 +10,7 @@ const Mixed = Schema.Types.Mixed;
 const EmpresaSchema = new Schema({
     estado: { type: Mixed, required: true },
     tipo_doc: { type: Mixed, required: true },
-    doc: { type: String, required: true },
+    doc: { type: String, required: true, unique: true },
     nombre: { type: String, required: true },
     nombre_comercial: { type: String, required: true },
     regimen: { type: Mixed, required: true },
@@ -24,8 +25,6 @@ const EmpresaSchema = new Schema({
 },
     { timestamps: true }
 );
-
-EmpresaSchema.index({ doc: 1, estado: 1 }, { unique: true });
 
 export class Empresas {
     private _model: EmpresaModelInterface;

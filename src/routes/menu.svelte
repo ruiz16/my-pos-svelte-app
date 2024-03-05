@@ -61,7 +61,9 @@
 			});
 		}
 
-		return { link };
+		return {
+			link,
+		};
 	}
 
 	function rotate(degrees: number, element: HTMLElement) {
@@ -77,7 +79,7 @@
 <nav class="list-nav">
 	<img src={`${baseUrl}images/icono_nomina.png`} alt="icono software" class="mx-auto mt-4 h-32" />
 	<ul class="sidebar-menu">
-		<li class="noselect flex items-center justify-start hover:bg-sky-700">
+		<li class="hover:bg-sky-700 noselect flex items-center justify-start">
 			<a href="/app/home" rel="noopener noreferrer" title="Ir a inicio" on:click={drawerClose} class="h-16 w-full text-white">
 				<IconHome class="mx-1" size={24} stroke={0.5} />
 				Inicio
@@ -100,7 +102,9 @@
 					<a class="w-full" href="/app/empresas" rel="noopener noreferrer" title="Ir a empresas"> Empresas </a>
 				</li>
 				<li class="noselect h-6 flex" style="min-height: 48px;">
-					<a class="w-full" href="/app/sucursales" rel="noopener noreferrer" title="Ir a sucursales"> Sucursales (Not Implemented) </a>
+					<a class="w-full" href="/app/sucursales" rel="noopener noreferrer" title="Ir a sucursales">
+						Sucursales (Not Implemented)
+					</a>
 				</li>
 			</ul>
 		</li>

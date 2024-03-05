@@ -45,9 +45,15 @@
 			display_func={(a) => a.valor}
 			{isEditing}
 		/>
-		<Input className="" identifier="doc" label="No. Identificación" bind:value={input.doc} />
-		<Input className="" identifier="nombre" label="Nombre" bind:value={input.nombre} />
-		<Input className="" identifier="nombre_comercial" label="Nombre Comercial" bind:value={input.nombre_comercial} />
+		<Input className="" identifier="doc" label="No. Identificación" bind:value={input.doc} required={true} />
+		<Input className="" identifier="nombre" label="Nombre" bind:value={input.nombre} required={true} />
+		<Input
+			className=""
+			identifier="nombre_comercial"
+			label="Nombre Comercial"
+			bind:value={input.nombre_comercial}
+			required={true}
+		/>
 		<Select
 			className=""
 			identifier="actividad_eco"

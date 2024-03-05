@@ -30,7 +30,11 @@ export const actions: Actions = {
             await EmpresaModel.updateOne({ _id: params.id }, value);
             return { success: true, id: JSON.stringify(params.id) };
         } catch (error: any) {
-            return { success: false, message: error.message };
+            if (error.code === 11000) {
+                return { success: false, error: "Ya existe una empresa con el mismo documento" };
+            } else {
+                return { success: false, error: error.message };
+            }
         }
 
     },
