@@ -1,5 +1,4 @@
 import { EmpresaModel } from "$/lib/models/Empresa/Empresa";
-// import { TablaModel } from "$/lib/models/Tablas/Tabla";
 import type { Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {

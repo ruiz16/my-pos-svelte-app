@@ -3,7 +3,7 @@ import type { Actions } from "@sveltejs/kit";
 
 export async function load({ params }) {
     const Empresa = await EmpresaModel.findById(params.id, { __v: 0 }).lean();
-    return { empresa: JSON.parse(JSON.stringify(Empresa)) };
+    return { empresa: structuredClone(Empresa) };
 }
 
 export const actions: Actions = {
