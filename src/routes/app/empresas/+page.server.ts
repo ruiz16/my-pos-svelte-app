@@ -1,8 +1,6 @@
 import { EmpresaModel } from "$/lib/models/Empresa/Empresa";
 import type { Actions } from "@sveltejs/kit";
 
-
-
 export async function load() {
     const empresas = await EmpresaModel.find({}).lean();
     return { empresas: JSON.parse(JSON.stringify(empresas)) };
