@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { IconPencil, IconTrash } from '@tabler/icons-svelte';
+	
+	import { Paginator, Modal, getModalStore, getToastStore, Toast } from '@skeletonlabs/skeleton';
+	import type { ToastSettings, PaginationSettings } from '@skeletonlabs/skeleton';
+
 	import ButtonNew from '$lib/components/ButtonNew.svelte';
-	import { Paginator, Modal, type PaginationSettings, Toast } from '@skeletonlabs/skeleton';
-
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	const modalStore = getModalStore();
-
-	import { onMount } from 'svelte';
+	import { IconPencil, IconTrash } from '@tabler/icons-svelte';
 	import { calculatePaginatedSource } from '$lib/utils/utilities.js';
-
 	import { nameWindow, type Empresa } from './shared';
 	import { openDeleteModal } from '$/lib/utils/modals';
 
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+
+	const modalStore = getModalStore();
+	const toastStore = getToastStore();
+
 	export let data: PageData;
 
 	let sourceData: Empresa[] = [];
@@ -38,22 +40,18 @@
 				});
 				if (response.status === 200) {
 					paginatedSource = paginatedSource.filter(function (item) {
-						return item._id !== id;
+						return item._id?.toString() !== id;
 					});
+					const toast: ToastSettings = { message: 'Empresa eliminada exitosamente', timeout: 5000, background: 'bg-orange-600' };
+					toastStore.trigger(toast);
 				}
 			}
 		});
 	}
 
-	async function getData(token: string) {
+	onMount(() => {
 		sourceData = data.empresas;
 		tablas = data.tablas;
-	}
-
-	let token = '';
-	onMount(() => {
-		token = data.token;
-		getData(token);
 	});
 
 	$: paginatedSource = calculatePaginatedSource(0, paginationSettings.limit, sourceData);
@@ -98,9 +96,9 @@
 								>
 									Editar <IconPencil size={12} />
 								</a>
-								<form method="POST" on:submit|preventDefault={() => deleteHandler(data._id, data)}>
+								<form method="POST" on:submit|preventDefault={() => deleteHandler(data._id?.toString() ?? '', data)}>
 									<!-- HIDDEN VALUE ID -->
-									<input name="id" type="text" hidden value={data._id} />
+									<input name="id" type="text" hidden value={data._id?.toString()} />
 									<button
 										class="flex gap-1 btn btn-sm px-2 py-1 border-none bg-slate-400 hover:bg-red-600 text-white rounded-md cursor-pointer"
 										title="Eliminar"

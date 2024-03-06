@@ -3,7 +3,7 @@ import type { Actions } from "@sveltejs/kit";
 
 export async function load() {
     const empresas = await EmpresaModel.find({}).lean();
-    return { empresas: structuredClone(empresas) };
+    return { empresas: JSON.parse(JSON.stringify(empresas)) };
 }
 
 export const actions: Actions = {
@@ -11,7 +11,7 @@ export const actions: Actions = {
         try {
 
             const formData = await request.formData();
-            const _id = formData.get('id');
+            const _id = formData.get('id') as string;
             await EmpresaModel.deleteOne({ _id });
 
             // Devuelve la respuesta adecuada

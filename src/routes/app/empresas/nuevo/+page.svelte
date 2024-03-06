@@ -1,19 +1,19 @@
 <script lang="ts">
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { nameWindow } from '../shared';
 
 	import Form from '../Form.svelte';
 	import { IconChevronLeft } from '@tabler/icons-svelte';
+
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import type { PageData } from './$types';
+
+	const toastStore = getToastStore();
 
 	export let form: any = {};
-
-	import type { PageData } from './$types';
 	export let data: PageData;
-
-	import { getToastStore } from '@skeletonlabs/skeleton';
-	import type { ToastSettings } from '@skeletonlabs/skeleton';
-	const toastStore = getToastStore();
 
 	$: if (form?.success === true) {
 		const url = `/app/empresas/${JSON.parse(form.id)}?success=true`;

@@ -23,6 +23,7 @@
 		result[tipo].push(item);
 		return result;
 	}, {});
+	
 </script>
 
 <form class="mt-4 flex flex-col gap-4 pt-4" {action} method="post" use:enhance on:submit|preventDefault>

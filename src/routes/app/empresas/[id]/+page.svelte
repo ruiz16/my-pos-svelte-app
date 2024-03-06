@@ -1,19 +1,18 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
-	import { IconChevronLeft } from '@tabler/icons-svelte';
-	import Form from '../Form.svelte';
-
-	import type { PageData } from './$types';
-	export let data: PageData | any;
-
-	export let form: any = {};
-
-	import { nameWindow } from '../shared';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
-
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
+
+	import { afterUpdate } from 'svelte';
+	import { IconChevronLeft } from '@tabler/icons-svelte';
+	import { nameWindow } from '../shared';
+	import Form from '../Form.svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import type { PageData } from './$types';
+
+	export let data: PageData | any;
+	export let form: any = {};
+
 	const toastStore = getToastStore();
 
 	afterUpdate(() => {

@@ -1,4 +1,5 @@
 import type { EmpresaModelInterface } from '$lib/models/Empresa';
+import type { ObjectId } from 'mongodb';
 
 export const nameWindow = {
 	plural: 'Empresas',
@@ -6,5 +7,5 @@ export const nameWindow = {
 };
 
 export interface Empresa extends EmpresaModelInterface {
-	_id: string;
+	_id?: ObjectId;
 }
